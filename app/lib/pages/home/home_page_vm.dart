@@ -1,8 +1,7 @@
 import 'package:app/mvvm/view_model.abs.dart';
+import 'package:app/pages/game/game_page_vm.dart';
 import 'package:app/routes.dart';
 import 'package:rxdart/subjects.dart';
-
-enum GameMode { easy, medium, hard }
 
 class HomePageState {
   late final GameMode gameMode;

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app/pages/game/game_page_vm.dart';
-import 'package:app/pages/home/home_page_vm.dart';
 import 'package:app/routes.dart';
 import 'package:flutter_test/flutter_test.dart';
 

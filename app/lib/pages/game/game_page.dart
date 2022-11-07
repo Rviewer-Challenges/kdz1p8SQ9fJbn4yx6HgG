@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:app/mvvm/view.abs.dart';
 import 'package:app/pages/game/game_page_vm.dart';
 import 'package:app/ui_components/app_button.dart';
+import 'package:app/ui_components/game_card.dart';
 import 'package:flutter/material.dart';
 
 class GamePage extends View<GamePageViewModel> {
@@ -43,6 +46,16 @@ class _GamePageState extends ViewState<GamePage, GamePageViewModel> {
                     Text(
                       '''You have selected the difficulty ${state.gameMode} in the previous page''',
                       textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 32),
+                    Text(
+                      '''Game State -> ${state.gameState}''',
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 32),
+                    GameCard(
+                      cardImage: state.imagePaths[
+                          Random().nextInt(state.imagePaths.length - 1)],
                     ),
                     const SizedBox(height: 32),
                     AppButton(

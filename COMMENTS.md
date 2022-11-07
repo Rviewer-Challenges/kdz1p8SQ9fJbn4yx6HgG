@@ -65,7 +65,7 @@ On Visual Studio Code, go to the `Run and Debug` tab, click on `Run and Debug` b
 
 The proposed apps are built inspired on the [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html). The following diagram explains the [dependency flow](https://www.uml-diagrams.org/dependency.html) of the packages and apps.
 
-![](/assets/generic_clean_architecture_apps.jpg)
+![](/arch/generic_clean_architecture_apps.jpg)
 
 ### Common Package
 
