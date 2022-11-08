@@ -1,12 +1,21 @@
 import 'package:app/pages/game/game_page_vm.dart';
+import 'package:app/ui_components/custom_flip_card.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class GameCard extends StatefulWidget {
   final CardGameState cardGameState;
+  final VoidCallback? flippedCallback;
+  final BoolCallback? doneFlippingCallback;
+  final Key flipCardKey;
+  final bool touchEnabled;
   const GameCard({
     required this.cardGameState,
+    required this.flipCardKey,
+    required this.touchEnabled,
+    this.flippedCallback,
+    this.doneFlippingCallback,
     Key? key,
   }) : super(key: key);
 
@@ -25,12 +34,13 @@ class _GameCardState extends State<GameCard> {
     return Card(
       elevation: 0,
       color: const Color(0x00000000),
-      child: FlipCard(
+      child: CustomFlipCard(
+        flipOnTouch: widget.touchEnabled,
+        key: widget.flipCardKey,
         direction: FlipDirection.VERTICAL,
-        speed: 1000,
-        onFlipDone: (status) {
-          widget.cardGameState.isFlipped = status;
-        },
+        speed: 300,
+        onFlip: widget.flippedCallback,
+        onFlipDone: widget.doneFlippingCallback,
         front: Container(
           decoration: const BoxDecoration(
             color: Color(0xFF192247),
@@ -38,7 +48,7 @@ class _GameCardState extends State<GameCard> {
           ),
           child: const Center(
             child: Image(
-              image: AssetImage('../assets/card_back.png'),
+              image: AssetImage('assets/card_back.png'),
               fit: BoxFit.fill,
             ),
           ),

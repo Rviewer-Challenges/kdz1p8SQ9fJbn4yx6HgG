@@ -19,7 +19,7 @@ void main() {
 
     test('thirdPageButtonTapped pushes third page', () async {
       // delay execution so the event it caught by the Routes Publish
-      scheduleMicrotask(viewModel.thirdPageButtonTapped);
+      scheduleMicrotask(viewModel.navigateToEndPage);
       final route = await viewModel.routes.first;
 
       expect(route.name, endRoute);

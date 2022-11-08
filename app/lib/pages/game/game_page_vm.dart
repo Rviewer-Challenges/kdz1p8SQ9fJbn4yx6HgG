@@ -3,6 +3,9 @@ import 'dart:math';
 
 import 'package:app/mvvm/view_model.abs.dart';
 import 'package:app/routes.dart';
+import 'package:flip_card/flip_card.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -12,8 +15,8 @@ enum GameState { loading, running, end }
 
 class CardGameState {
   String imageURL;
-  bool isFlipped = false;
-
+  bool enabled = true;
+  GlobalKey<FlipCardState> cardStateKey = GlobalKey<FlipCardState>();
   CardGameState(this.imageURL);
 }
 
@@ -22,12 +25,14 @@ class GamePageState {
   final GameState gameState;
   final int horizontalAxis;
   final List<CardGameState> cards;
+  int numOfPairsLeft;
 
   GamePageState({
     this.gameMode = GameMode.easy,
     this.horizontalAxis = 4,
     this.gameState = GameState.loading,
     this.cards = const [],
+    this.numOfPairsLeft = 0,
   });
 
   GamePageState copyWith({
@@ -35,12 +40,15 @@ class GamePageState {
     GameState? gameState,
     int? horizontalAxis,
     List<CardGameState>? cards,
+    List<GlobalKey<FlipCardState>>? cardStateKeys,
+    int? numOfPairsLeft,
   }) {
     return GamePageState(
       gameMode: gameMode ?? this.gameMode,
       gameState: gameState ?? this.gameState,
       horizontalAxis: horizontalAxis ?? this.horizontalAxis,
       cards: cards ?? this.cards,
+      numOfPairsLeft: numOfPairsLeft ?? this.numOfPairsLeft,
     );
   }
 }
@@ -75,11 +83,14 @@ class GamePageViewModel extends ViewModel {
 
   void createGame(List<String> images) {
     final List<CardGameState> cards = [];
-    var horizontalAxis = 4;
+    final List<GlobalKey<FlipCardState>> cardStateKeys = [];
+    int horizontalAxis = 4;
+    int numOfPairs = 0;
 
     switch (_stateSubject.value.gameMode) {
       case GameMode.easy: // 4x4
-        for (var i = 0; i < 8; i++) {
+        numOfPairs = 8;
+        for (var i = 0; i < numOfPairs; i++) {
           final image = images[Random().nextInt(images.length - 1)];
           images.remove(image);
           cards
@@ -88,7 +99,8 @@ class GamePageViewModel extends ViewModel {
         }
         break;
       case GameMode.medium: // 4x6
-        for (var i = 0; i < 12; i++) {
+        numOfPairs = 12;
+        for (var i = 0; i < numOfPairs; i++) {
           final image = images[Random().nextInt(images.length - 1)];
           images.remove(image);
           cards
@@ -97,7 +109,8 @@ class GamePageViewModel extends ViewModel {
         }
         break;
       case GameMode.hard: // 5x6
-        for (var i = 0; i < 15; i++) {
+        numOfPairs = 15;
+        for (var i = 0; i < numOfPairs; i++) {
           final image = images[Random().nextInt(images.length - 1)];
           images.remove(image);
           cards
@@ -116,13 +129,17 @@ class GamePageViewModel extends ViewModel {
         gameMode: _stateSubject.value.gameMode,
         gameState: GameState.running,
         horizontalAxis: horizontalAxis,
+        numOfPairsLeft: numOfPairs,
       ),
     );
   }
 
-  void thirdPageButtonTapped() {
+  void navigateToEndPage() {
     _routesSubject.add(
-      const AppRouteSpec(name: endRoute),
+      const AppRouteSpec(
+        name: endRoute,
+        action: AppRouteAction.replaceWith,
+      ),
     );
   }
 
