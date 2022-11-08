@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:app/mvvm/view.abs.dart';
 import 'package:app/pages/game/game_page_vm.dart';
 import 'package:app/ui_components/app_button.dart';
@@ -32,47 +30,54 @@ class _GamePageState extends ViewState<GamePage, GamePageViewModel> {
 
         final state = snapshot.data!;
 
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Game Page'),
-          ),
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(32),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '''You have selected the difficulty ${state.gameMode} in the previous page''',
-                      textAlign: TextAlign.center,
+        return OrientationBuilder(
+          builder: (context, orientation) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('Memo Game ${state.gameMode.name} mode'),
+              ),
+              body: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 32,
+                    right: 32,
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Time Left: 1:00',
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                        Text(
+                          'Remaining pairs: 0',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Text(
+                          'Move counter: 0',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 32),
+                        GridView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: state.cards.length,
+                          itemBuilder: (context, index) => GameCard(
+                            cardGameState: state.cards[index],
+                          ),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: state.horizontalAxis,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 32),
-                    Text(
-                      '''Game State -> ${state.gameState}''',
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 32),
-                    GameCard(
-                      cardImage: state.imagePaths[
-                          Random().nextInt(state.imagePaths.length - 1)],
-                    ),
-                    const SizedBox(height: 32),
-                    AppButton(
-                      onTap: viewModel.thirdPageButtonTapped,
-                      child: Text(
-                        'Go to end page',
-                        style: Theme.of(context)
-                            .textTheme
-                            .button
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
     );

@@ -1,11 +1,12 @@
+import 'package:app/pages/game/game_page_vm.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class GameCard extends StatefulWidget {
-  final String cardImage;
+  final CardGameState cardGameState;
   const GameCard({
-    required this.cardImage,
+    required this.cardGameState,
     Key? key,
   }) : super(key: key);
 
@@ -23,50 +24,39 @@ class _GameCardState extends State<GameCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      margin: const EdgeInsets.all(8),
       color: const Color(0x00000000),
       child: FlipCard(
         direction: FlipDirection.VERTICAL,
         speed: 1000,
         onFlipDone: (status) {
-          if (kDebugMode) {
-            print(status);
-          }
+          widget.cardGameState.isFlipped = status;
         },
-        front: SizedBox(
-          width: 200,
-          height: 275,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFF192247),
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-            ),
-            child: const Center(
-              child: Image(
-                image: AssetImage('../assets/card_back.png'),
-                fit: BoxFit.fill,
-              ),
+        front: Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFF192247),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          child: const Center(
+            child: Image(
+              image: AssetImage('../assets/card_back.png'),
+              fit: BoxFit.fill,
             ),
           ),
         ),
-        back: SizedBox(
-          width: 200,
-          height: 275,
+        back: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: const BoxDecoration(
+            color: Color(0xFF192247),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
           child: Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(4),
             decoration: const BoxDecoration(
-              color: Color(0xFF192247),
-              borderRadius: BorderRadius.all(Radius.circular(8)),
+              color: Color(0xFFFFFFFF),
             ),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: const BoxDecoration(
-                color: Color(0xFFFFFFFF),
-              ),
-              child: Image(
-                image: AssetImage(widget.cardImage),
-                fit: BoxFit.contain,
-              ),
+            child: Image(
+              image: AssetImage(widget.cardGameState.imageURL),
+              fit: BoxFit.contain,
             ),
           ),
         ),
