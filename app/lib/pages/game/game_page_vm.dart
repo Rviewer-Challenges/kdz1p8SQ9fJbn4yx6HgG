@@ -113,6 +113,7 @@ class GamePageViewModel extends ViewModel {
     _stateSubject.add(
       GamePageState(
         cards: cards,
+        gameMode: _stateSubject.value.gameMode,
         gameState: GameState.running,
         horizontalAxis: horizontalAxis,
       ),
