@@ -1,0 +1,47 @@
+name: app
+description: Memo Game in Flutter+MVVM
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.4 <3.0.0'
+
+dependencies:
+  cupertino_icons: ^1.0.2
+  logging: ^1.1.0
+  rxdart: ^0.27.5
+  flip_card: ^0.6.0
+
+  flutter:
+    sdk: flutter
+
+  design_system:
+    path: ../design_system
+
+  common:
+    path: ../common
+
+  entities:
+    path: ../entities
+
+  domain:
+    path: ../domain
+
+  data:
+    path: ../data
+
+  clients:
+    path: ../clients
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  test:
+  flutter_lints:
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/

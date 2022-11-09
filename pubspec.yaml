@@ -1,0 +1,22 @@
+name: flutter_mvvm
+description: An example of MVVM in Flutter
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  test: ^1.21.0
+  flutter_lints: ^2.0.1
+
+flutter:
+  uses-material-design: true
