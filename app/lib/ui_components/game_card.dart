@@ -1,7 +1,6 @@
 import 'package:app/pages/game/game_page_vm.dart';
 import 'package:app/ui_components/custom_flip_card.dart';
 import 'package:flip_card/flip_card.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class GameCard extends StatefulWidget {

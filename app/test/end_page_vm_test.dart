@@ -8,53 +8,17 @@ void main() {
   late EndPageViewModel viewModel;
 
   setUp(() {
-    viewModel = EndPageViewModel();
+    viewModel = EndPageViewModel(timeLeft: 20, remainingPairs: 0, moves: 8);
   });
 
-  group('ThirdPageViewModel', () {
-    test('popUntilRootButtonTapped pops to root', () async {
+  group('EndPageViewModel', () {
+    test('Restart goes to home', () async {
       // delay execution so the event it caught by the Routes Publish
-      scheduleMicrotask(viewModel.popUntilRootButtonTapped);
+      scheduleMicrotask(viewModel.restartButtonTapped);
       final route = await viewModel.routes.first;
 
       expect(route.name, '');
       expect(route.action, AppRouteAction.popUntilRoot);
-      expect(route.arguments, {});
-
-      viewModel.dispose();
-    });
-
-    test('popButtonTapped pops page', () async {
-      // delay execution so the event it caught by the Routes Publish
-      scheduleMicrotask(viewModel.popButtonTapped);
-      final route = await viewModel.routes.first;
-
-      expect(route.name, '');
-      expect(route.action, AppRouteAction.pop);
-      expect(route.arguments, {});
-
-      viewModel.dispose();
-    });
-
-    test('popUntilHomeButtonTapped pops page', () async {
-      // delay execution so the event it caught by the Routes Publish
-      scheduleMicrotask(viewModel.popUntilHomeButtonTapped);
-      final route = await viewModel.routes.first;
-
-      expect(route.name, '/');
-      expect(route.action, AppRouteAction.popUntil);
-      expect(route.arguments, {});
-
-      viewModel.dispose();
-    });
-
-    test('popUntilSecondButtonTapped pops page', () async {
-      // delay execution so the event it caught by the Routes Publish
-      scheduleMicrotask(viewModel.popUntilSecondButtonTapped);
-      final route = await viewModel.routes.first;
-
-      expect(route.name, gameRoute);
-      expect(route.action, AppRouteAction.popUntil);
       expect(route.arguments, {});
 
       viewModel.dispose();

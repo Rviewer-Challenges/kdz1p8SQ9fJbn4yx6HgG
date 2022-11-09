@@ -22,67 +22,60 @@ class _EndPageState extends ViewState<EndPage, EndPageViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Third Page'),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 32),
-                AppButton(
-                  onTap: viewModel.popUntilRootButtonTapped,
-                  child: Text(
-                    'Pop until root',
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
-                        ?.copyWith(color: Colors.white),
-                  ),
+    return StreamBuilder<EndPageState>(
+      stream: viewModel.state,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Container();
+
+        final state = snapshot.data!;
+
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Results'),
+          ),
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(32),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      state.remainingPairs == 0 ? 'You Win!' : 'You Lose!',
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
+                    const SizedBox(height: 32),
+                    Text(
+                      'Time Left: ${state.timeLeft}',
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    Text(
+                      'Remaining pairs: ${state.remainingPairs}',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text(
+                      'Move counter: ${state.moves}',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 32),
+                    AppButton(
+                      onTap: viewModel.restartButtonTapped,
+                      child: Text(
+                        'Restart',
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            ?.copyWith(color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                  ],
                 ),
-                const SizedBox(height: 32),
-                AppButton(
-                  onTap: viewModel.popUntilHomeButtonTapped,
-                  child: Text(
-                    'Pop until home page',
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
-                        ?.copyWith(color: Colors.white),
-                  ),
-                ),
-                const SizedBox(height: 32),
-                AppButton(
-                  onTap: viewModel.popUntilSecondButtonTapped,
-                  child: Text(
-                    'Pop until second page',
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
-                        ?.copyWith(color: Colors.white),
-                  ),
-                ),
-                const SizedBox(height: 32),
-                AppButton(
-                  onTap: viewModel.popButtonTapped,
-                  child: Text(
-                    'Pop',
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
-                        ?.copyWith(color: Colors.white),
-                  ),
-                ),
-                const SizedBox(height: 32),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

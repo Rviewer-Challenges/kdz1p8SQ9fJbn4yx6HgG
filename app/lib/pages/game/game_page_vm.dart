@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:app/mvvm/view_model.abs.dart';
 import 'package:app/routes.dart';
 import 'package:flip_card/flip_card.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/subjects.dart';
@@ -83,7 +82,6 @@ class GamePageViewModel extends ViewModel {
 
   void createGame(List<String> images) {
     final List<CardGameState> cards = [];
-    final List<GlobalKey<FlipCardState>> cardStateKeys = [];
     int horizontalAxis = 4;
     int numOfPairs = 0;
 
@@ -134,10 +132,15 @@ class GamePageViewModel extends ViewModel {
     );
   }
 
-  void navigateToEndPage() {
+  void navigateToEndPage(int timeLeft, int remainingPairs, int moves) {
     _routesSubject.add(
-      const AppRouteSpec(
+      AppRouteSpec(
         name: endRoute,
+        arguments: {
+          'timeLeft': timeLeft,
+          'remainingPairs': remainingPairs,
+          'moves': moves,
+        },
         action: AppRouteAction.replaceWith,
       ),
     );

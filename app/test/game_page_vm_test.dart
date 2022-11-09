@@ -11,20 +11,26 @@ void main() {
     viewModel = GamePageViewModel(gameMode: GameMode.hard);
   });
 
-  group('SecondPageViewModel', () {
-    test('initial state starts with the given hard GameMode', () async {
+// This crashes as the ViewModel depends on the context for the assets.
+// Mocking would be needed for this test to pass.
+  group('GamePageViewModel', () {
+    test('Initial state starts with the given hard GameMode', () async {
       final state = await viewModel.state.first;
       expect(state.gameMode, GameMode.hard);
     });
 
-    test('thirdPageButtonTapped pushes third page', () async {
+    test('Finishes game and shows correct result', () async {
       // delay execution so the event it caught by the Routes Publish
-      scheduleMicrotask(viewModel.navigateToEndPage);
+      scheduleMicrotask(() => viewModel.navigateToEndPage(0, 3, 23));
       final route = await viewModel.routes.first;
 
       expect(route.name, endRoute);
-      expect(route.action, AppRouteAction.pushTo);
-      expect(route.arguments, {});
+      expect(route.action, AppRouteAction.replaceWith);
+      expect(route.arguments, {
+        'timeLeft': 0,
+        'remainingPairs': 3,
+        'moves': 23,
+      });
 
       viewModel.dispose();
     });

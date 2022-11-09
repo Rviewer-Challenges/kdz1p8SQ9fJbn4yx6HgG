@@ -36,9 +36,23 @@ class AppRouter {
           ),
         );
       case endRoute:
+        final timeLeft = arguments['timeLeft'] as int?;
+        final remainingPairs = arguments['remainingPairs'] as int?;
+        final moves = arguments['moves'] as int?;
+
+        if (timeLeft == null || remainingPairs == null || moves == null) {
+          throw Exception('Missing arguments for route ${settings.name}');
+        }
+
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => EndPage(viewModel: EndPageViewModel()),
+          builder: (_) => EndPage(
+            viewModel: EndPageViewModel(
+              timeLeft: timeLeft,
+              remainingPairs: remainingPairs,
+              moves: moves,
+            ),
+          ),
         );
       default:
         throw Exception('Route ${settings.name} not implemented');
