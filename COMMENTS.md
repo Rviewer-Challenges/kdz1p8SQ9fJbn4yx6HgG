@@ -1,5 +1,7 @@
 # Memo Game in Flutter+MVVM
 
+https://user-images.githubusercontent.com/2033896/200705092-04531515-524a-487f-928b-b21f5f73990b.mp4
+
 ## Environment Setup
 
 The following steps are based on macOS.
